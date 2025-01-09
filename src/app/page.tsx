@@ -28,18 +28,6 @@ const topics = [
     subtopics: ["Big-Oh Notation", "Time Complexity", "Space Complexity", "Code Analysis"]
   },
   {
-    title: "Basic Sorting",
-    description: "Elementary sorting algorithms",
-    href: "/topics/basic-sorting",
-    subtopics: ["Selection Sort", "Bubble Sort", "Insertion Sort", "Stability Analysis"]
-  },
-  {
-    title: "Advanced Sorting",
-    description: "Efficient sorting algorithms",
-    href: "/topics/advanced-sorting",
-    subtopics: ["Merge Sort", "Quick Sort", "Runtime Comparisons", "Space Complexity"]
-  },
-  {
     title: "Binary Trees",
     description: "Basic tree structures and operations",
     href: "/topics/binary-trees",
