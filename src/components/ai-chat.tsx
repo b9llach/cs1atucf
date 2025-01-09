@@ -36,7 +36,7 @@ You can help with:
 - Common operations and algorithms
 - Properties and characteristics
 - Code examples
-Please provide concise, accurate answers focused on the current topic.
+Please provide concise, accurate answers focused on the current topic. If providing code, please provide the code in C.
 `;
 
   const handleSubmit = async (e: React.FormEvent) => {
