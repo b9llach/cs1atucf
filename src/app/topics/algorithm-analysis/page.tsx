@@ -29,6 +29,7 @@ export default function AlgorithmAnalysis() {
             { id: "big-oh", label: "Big-Oh Notation" },
             { id: "time", label: "Time Complexity" },
             { id: "space", label: "Space Complexity" },
+            { id: "recurrence", label: "Recurrence Relations" },
             { id: "analysis", label: "Code Analysis" }
           ].map(({ id, label }) => (
             <Button
@@ -171,6 +172,66 @@ export default function AlgorithmAnalysis() {
                         <li>O(n): Recursive sum</li>
                       </ul>
                     </div>
+                  </div>
+                </div>
+              </Card>
+            )}
+
+            {activeSection === "recurrence" && (
+              <Card className="p-6 bg-zinc-800/50">
+                <h2 className="text-2xl font-semibold mb-4 text-white">Recurrence Relations & Master Theorem</h2>
+                
+                <div className="space-y-6 text-zinc-400">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2 text-white">Master Theorem</h3>
+                    <p>
+                      For a recurrence relation of the form: T(n) = aT(n/b) + f(n), where:
+                      <br />• a ≥ 1 (number of subproblems)
+                      <br />• b {">"} 1 (factor by which n is divided)
+                      <br />• f(n) is the cost of dividing and combining
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 bg-zinc-900/50 rounded-lg">
+                      <h4 className="text-white font-semibold mb-2">Three Cases</h4>
+                      <div className="space-y-2">
+                        <p>Compare f(n) with n^(log_b(a))</p>
+                        <ol className="list-decimal list-inside">
+                          <li>If f(n) = O(n^(log_b(a) - ε))<br />
+                             Then T(n) = Θ(n^(log_b(a)))</li>
+                          <li>If f(n) = Θ(n^(log_b(a)))<br />
+                             Then T(n) = Θ(n^(log_b(a)) * log n)</li>
+                          <li>If f(n) = Ω(n^(log_b(a) + ε))<br />
+                             Then T(n) = Θ(f(n))</li>
+                        </ol>
+                      </div>
+                    </div>
+                    <div className="p-4 bg-zinc-900/50 rounded-lg">
+                      <h4 className="text-white font-semibold mb-2">Common Examples</h4>
+                      <ul className="space-y-2">
+                        <li>Binary Search:<br />
+                            T(n) = T(n/2) + O(1)<br />
+                            Solution: O(log n)</li>
+                        <li>Merge Sort:<br />
+                            T(n) = 2T(n/2) + O(n)<br />
+                            Solution: O(n log n)</li>
+                        <li>Strassen's Matrix:<br />
+                            T(n) = 7T(n/2) + O(n²)<br />
+                            Solution: O(n^log_2(7))</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-zinc-900/50 rounded-lg">
+                    <h4 className="text-white font-semibold mb-2">Solving Process</h4>
+                    <ol className="list-decimal list-inside space-y-1">
+                      <li>Identify a, b, and f(n) from the recurrence</li>
+                      <li>Calculate n^(log_b(a))</li>
+                      <li>Compare f(n) with n^(log_b(a))</li>
+                      <li>Apply the appropriate case from the Master Theorem</li>
+                      <li>Write the final time complexity</li>
+                    </ol>
                   </div>
                 </div>
               </Card>
