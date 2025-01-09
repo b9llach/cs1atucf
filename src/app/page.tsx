@@ -75,12 +75,6 @@ const topics = [
     href: "/topics/base-conversion",
     subtopics: ["Binary to Decimal", "Decimal to Binary", "Hexadecimal to Decimal", "Decimal to Hexadecimal"]
   },
-  {
-    title: "Bitwise Operations",
-    description: "Bitwise operations and their applications",
-    href: "/topics/bitwise-operations",
-    subtopics: ["AND", "OR", "XOR", "NOT", "Shift Operations"]
-  }
 ];
 
 export default function Home() {
