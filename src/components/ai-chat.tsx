@@ -90,7 +90,7 @@ Please provide concise, accurate answers focused on the current topic.
   }, [messages]);
 
   return (
-    <div className="fixed right-4 bottom-4 w-[600px]">
+    <div className="fixed right-4 bottom-16 w-[600px] z-50">
       {isExpanded ? (
         <div className="bg-zinc-800/50 rounded-lg border border-zinc-700/50 shadow-lg backdrop-blur-sm">
           <div className="p-3 border-b border-zinc-700/50 flex justify-between items-center">
