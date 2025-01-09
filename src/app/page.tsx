@@ -62,6 +62,30 @@ const topics = [
     description: "Recursive problem solving",
     href: "/topics/recursion",
     subtopics: ["Recursive Functions", "Base Cases", "Call Stack", "Recursive Analysis"]
+  },
+  {
+    title: "Heaps",
+    description: "Priority queues and heap operations",
+    href: "/topics/heaps",
+    subtopics: ["Heap Properties", "Heap Operations", "Heap Sort", "Heap Applications"]
+  },
+  {
+    title: "Tries",
+    description: "Tree-based data structures for efficient string operations",
+    href: "/topics/tries",
+    subtopics: ["Prefix Trees", "Trie Operations", "Trie Applications", "Trie Efficiency"]
+  },
+  {
+    title: "Base Conversion",
+    description: "Converting between different number systems",
+    href: "/topics/base-conversion",
+    subtopics: ["Binary to Decimal", "Decimal to Binary", "Hexadecimal to Decimal", "Decimal to Hexadecimal"]
+  },
+  {
+    title: "Bitwise Operations",
+    description: "Bitwise operations and their applications",
+    href: "/topics/bitwise-operations",
+    subtopics: ["AND", "OR", "XOR", "NOT", "Shift Operations"]
   }
 ];
 
