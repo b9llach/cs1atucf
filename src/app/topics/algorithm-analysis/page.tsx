@@ -201,7 +201,7 @@ export default function AlgorithmAnalysis() {
 // Worst: O(n²) - Reverse sorted`}
                       language="c"
                     >
-                      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                      {({ tokens, getLineProps, getTokenProps }) => (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded overflow-x-auto">
                           {tokens.map((line, i) => (
                             <div key={i} {...getLineProps({ line })}>
@@ -249,7 +249,7 @@ int partition(int arr[], int low, int high) {
 // Worst: O(n²) - Poor pivot choice`}
                       language="c"
                     >
-                      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                      {({ tokens, getLineProps, getTokenProps }) => (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded overflow-x-auto">
                           {tokens.map((line, i) => (
                             <div key={i} {...getLineProps({ line })}>
@@ -302,7 +302,7 @@ void merge(int arr[], int left, int mid, int right) {
 // Worst: O(n log n)`}
                       language="c"
                     >
-                      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                      {({ tokens, getLineProps, getTokenProps }) => (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded overflow-x-auto">
                           {tokens.map((line, i) => (
                             <div key={i} {...getLineProps({ line })}>
@@ -341,7 +341,7 @@ void merge(int arr[], int left, int mid, int right) {
 // Worst: O(n²)`}
                       language="c"
                     >
-                      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                      {({ tokens, getLineProps, getTokenProps }) => (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded overflow-x-auto">
                           {tokens.map((line, i) => (
                             <div key={i} {...getLineProps({ line })}>
@@ -380,7 +380,7 @@ void merge(int arr[], int left, int mid, int right) {
 // Worst: O(n²) - Reverse sorted`}
                       language="c"
                     >
-                      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                      {({ tokens, getLineProps, getTokenProps }) => (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded overflow-x-auto">
                           {tokens.map((line, i) => (
                             <div key={i} {...getLineProps({ line })}>
@@ -433,7 +433,7 @@ void heapSort(int arr[], int n) {
 // Worst: O(n log n)`}
                       language="c"
                     >
-                      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                      {({ tokens, getLineProps, getTokenProps }) => (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded overflow-x-auto">
                           {tokens.map((line, i) => (
                             <div key={i} {...getLineProps({ line })}>
@@ -480,7 +480,7 @@ void heapSort(int arr[], int n) {
 // Worst: O(n²) - When all elements go to the same bucket`}
                       language="c"
                     >
-                      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                      {({ tokens, getLineProps, getTokenProps }) => (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded overflow-x-auto">
                           {tokens.map((line, i) => (
                             <div key={i} {...getLineProps({ line })}>
