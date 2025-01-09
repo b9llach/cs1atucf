@@ -752,6 +752,16 @@ int read_value = *ptr;    // read_value is now 42
           </motion.div>
         </AnimatePresence>
       </div>
+      <AIChatBox 
+        contextTitle="Basics"
+        contextDescription={`
+Current topic focuses on:
+- Data types and variables
+- Memory addresses and pointers
+- Basic operations and expressions
+Please provide examples and explanations in the context of Basics.
+        `}
+      />
     </div>
   );
 }
