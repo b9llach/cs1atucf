@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Box, Type, Pointer, Play, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { Highlight, themes } from "prism-react-renderer";
+import { AIChatBox } from "@/components/ai-chat";
 
 export default function BasicsPage() {
   const [activeSection, setActiveSection] = useState("memory");
