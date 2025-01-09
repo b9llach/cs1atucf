@@ -1,1 +1,20 @@
-<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80">
+  <!-- Binary Background Pattern -->
+  <path fill="#000" opacity="0.1" d="M0 0h394v80H0z"/>
+  <text x="20" y="50" font-family="monospace" font-size="24" fill="#000">
+    <tspan>01</tspan>
+    <tspan x="60">10</tspan>
+    <tspan x="100">11</tspan>
+  </text>
+  
+  <!-- Main Text -->
+  <path fill="#000" d="M40 20h20v40H40z"/> <!-- Stylized 'i' -->
+  <path fill="#000" d="M70 20l20 40h10l-20-40h-10z"/> <!-- Stylized 'h' -->
+  <path fill="#000" d="M110 20v40h40l-10-20 10-20h-40z"/> <!-- Stylized 'c' -->
+  <path fill="#000" d="M160 20l20 40 20-40h-10l-10 20-10-20h-10z"/> <!-- Stylized 's' -->
+  <text x="220" y="50" font-family="monospace" font-weight="bold" font-size="32" fill="#000">1</text>
+  
+  <!-- Decorative Elements -->
+  <circle cx="350" cy="40" r="20" fill="none" stroke="#000" stroke-width="2"/>
+  <path fill="none" stroke="#000" stroke-width="2" d="M340 40h20M350 30v20"/>
+</svg>
