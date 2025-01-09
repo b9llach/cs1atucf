@@ -6,6 +6,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Highlight, themes } from "prism-react-renderer";
+import { AIChatBox } from "@/components/ai-chat";
 
 export default function AlgorithmAnalysis() {
   const [activeSection, setActiveSection] = useState("big-oh");
@@ -187,7 +188,15 @@ export default function AlgorithmAnalysis() {
                     </p>
                     <Highlight
                       theme={themes.vsDark}
-                      code={`void bubbleSort(int arr[], int n) {
+                      code={`#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void bubbleSort(int arr[], int n) {
     for (int i = 0; i < n-1; i++) {
         for (int j = 0; j < n-i-1; j++) {
             if (arr[j] > arr[j+1]) {
@@ -196,9 +205,25 @@ export default function AlgorithmAnalysis() {
         }
     }
 }
-// Best: O(n) - Already sorted
-// Average: O(n²)
-// Worst: O(n²) - Reverse sorted`}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\\n");
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printf("Original array: \\n");
+    printArray(arr, n);
+    
+    bubbleSort(arr, n);
+    
+    printf("Sorted array: \\n");
+    printArray(arr, n);
+    return 0;
+}`}
                       language="c"
                     >
                       {({ tokens, getLineProps, getTokenProps }) => (
@@ -223,12 +248,12 @@ export default function AlgorithmAnalysis() {
                     </p>
                     <Highlight
                       theme={themes.vsDark}
-                      code={`void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-        int pi = partition(arr, low, high);
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
-    }
+                      code={`#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
 int partition(int arr[], int low, int high) {
@@ -244,9 +269,33 @@ int partition(int arr[], int low, int high) {
     swap(&arr[i + 1], &arr[high]);
     return (i + 1);
 }
-// Best: O(n log n)
-// Average: O(n log n)
-// Worst: O(n²) - Poor pivot choice`}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\\n");
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printf("Original array: \\n");
+    printArray(arr, n);
+    
+    quickSort(arr, 0, n-1);
+    
+    printf("Sorted array: \\n");
+    printArray(arr, n);
+    return 0;
+}`}
                       language="c"
                     >
                       {({ tokens, getLineProps, getTokenProps }) => (
@@ -271,14 +320,7 @@ int partition(int arr[], int low, int high) {
                     </p>
                     <Highlight
                       theme={themes.vsDark}
-                      code={`void mergeSort(int arr[], int left, int right) {
-    if (left < right) {
-        int mid = left + (right - left) / 2;
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid + 1, right);
-        merge(arr, left, mid, right);
-    }
-}
+                      code={`#include <stdio.h>
 
 void merge(int arr[], int left, int mid, int right) {
     int i, j, k;
@@ -297,9 +339,34 @@ void merge(int arr[], int left, int mid, int right) {
     while (i < n1) arr[k++] = L[i++];
     while (j < n2) arr[k++] = R[j++];
 }
-// Best: O(n log n)
-// Average: O(n log n)
-// Worst: O(n log n)`}
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\\n");
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printf("Original array: \\n");
+    printArray(arr, n);
+    
+    mergeSort(arr, 0, n-1);
+    
+    printf("Sorted array: \\n");
+    printArray(arr, n);
+    return 0;
+}`}
                       language="c"
                     >
                       {({ tokens, getLineProps, getTokenProps }) => (
@@ -324,7 +391,15 @@ void merge(int arr[], int left, int mid, int right) {
                     </p>
                     <Highlight
                       theme={themes.vsDark}
-                      code={`void selectionSort(int arr[], int n) {
+                      code={`#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void selectionSort(int arr[], int n) {
     int i, j, min_idx;
     for (i = 0; i < n-1; i++) {
         min_idx = i;
@@ -336,9 +411,25 @@ void merge(int arr[], int left, int mid, int right) {
             swap(&arr[min_idx], &arr[i]);
     }
 }
-// Best: O(n²)
-// Average: O(n²)
-// Worst: O(n²)`}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\\n");
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printf("Original array: \\n");
+    printArray(arr, n);
+    
+    selectionSort(arr, n);
+    
+    printf("Sorted array: \\n");
+    printArray(arr, n);
+    return 0;
+}`}
                       language="c"
                     >
                       {({ tokens, getLineProps, getTokenProps }) => (
@@ -363,7 +454,9 @@ void merge(int arr[], int left, int mid, int right) {
                     </p>
                     <Highlight
                       theme={themes.vsDark}
-                      code={`void insertionSort(int arr[], int n) {
+                      code={`#include <stdio.h>
+
+void insertionSort(int arr[], int n) {
     int i, key, j;
     for (i = 1; i < n; i++) {
         key = arr[i];
@@ -375,9 +468,25 @@ void merge(int arr[], int left, int mid, int right) {
         arr[j + 1] = key;
     }
 }
-// Best: O(n) - Already sorted
-// Average: O(n²)
-// Worst: O(n²) - Reverse sorted`}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\\n");
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printf("Original array: \\n");
+    printArray(arr, n);
+    
+    insertionSort(arr, n);
+    
+    printf("Sorted array: \\n");
+    printArray(arr, n);
+    return 0;
+}`}
                       language="c"
                     >
                       {({ tokens, getLineProps, getTokenProps }) => (
@@ -402,7 +511,15 @@ void merge(int arr[], int left, int mid, int right) {
                     </p>
                     <Highlight
                       theme={themes.vsDark}
-                      code={`void heapify(int arr[], int n, int i) {
+                      code={`#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void heapify(int arr[], int n, int i) {
     int largest = i;
     int left = 2 * i + 1;
     int right = 2 * i + 2;
@@ -420,17 +537,36 @@ void merge(int arr[], int left, int mid, int right) {
 }
 
 void heapSort(int arr[], int n) {
+    // Build heap (rearrange array)
     for (int i = n / 2 - 1; i >= 0; i--)
         heapify(arr, n, i);
 
+    // One by one extract an element from heap
     for (int i = n - 1; i >= 0; i--) {
         swap(&arr[0], &arr[i]);
         heapify(arr, i, 0);
     }
 }
-// Best: O(n log n)
-// Average: O(n log n)
-// Worst: O(n log n)`}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\\n");
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    
+    printf("Original array: \\n");
+    printArray(arr, n);
+    
+    heapSort(arr, n);
+    
+    printf("Sorted array: \\n");
+    printArray(arr, n);
+    return 0;
+}`}
                       language="c"
                     >
                       {({ tokens, getLineProps, getTokenProps }) => (
@@ -455,29 +591,89 @@ void heapSort(int arr[], int n) {
                     </p>
                     <Highlight
                       theme={themes.vsDark}
-                      code={`void bucketSort(float arr[], int n) {
-    // Create n empty buckets
-    vector<float> buckets[n];
+                      code={`#include <stdio.h>
+#include <stdlib.h>
+
+// Function to find the maximum value in array
+int getMax(float arr[], int n) {
+    float max = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > max)
+            max = arr[i];
+    return max;
+}
+
+// Function to sort individual buckets
+void insertionSort(float arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        float key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+void bucketSort(float arr[], int n) {
+    // 1) Create n empty buckets
+    float **buckets = (float **)malloc(sizeof(float *) * n);
+    int *bucketSizes = (int *)calloc(n, sizeof(int));
     
-    // Put array elements in different buckets
+    for (int i = 0; i < n; i++) {
+        buckets[i] = (float *)malloc(sizeof(float) * n);
+    }
+    
+    // 2) Put array elements in different buckets
     for (int i = 0; i < n; i++) {
         int bucketIndex = n * arr[i];
-        buckets[bucketIndex].push_back(arr[i]);
+        buckets[bucketIndex][bucketSizes[bucketIndex]] = arr[i];
+        bucketSizes[bucketIndex]++;
     }
- 
-    // Sort individual buckets
-    for (int i = 0; i < n; i++)
-        sort(buckets[i].begin(), buckets[i].end());
- 
-    // Concatenate all buckets into arr[]
+    
+    // 3) Sort individual buckets
+    for (int i = 0; i < n; i++) {
+        if (bucketSizes[i] > 0) {
+            insertionSort(buckets[i], bucketSizes[i]);
+        }
+    }
+    
+    // 4) Concatenate all buckets into arr[]
     int index = 0;
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < buckets[i].size(); j++)
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < bucketSizes[i]; j++) {
             arr[index++] = buckets[i][j];
+        }
+    }
+    
+    // Free allocated memory
+    for (int i = 0; i < n; i++) {
+        free(buckets[i]);
+    }
+    free(buckets);
+    free(bucketSizes);
 }
-// Best: Ω(n + k)
-// Average: Θ(n + k)
-// Worst: O(n²) - When all elements go to the same bucket`}
+
+void printArray(float arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%.2f ", arr[i]);
+    printf("\\n");
+}
+
+int main() {
+    float arr[] = {0.42, 0.32, 0.33, 0.52, 0.37, 0.47, 0.51};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    
+    printf("Original array: \\n");
+    printArray(arr, n);
+    
+    bucketSort(arr, n);
+    
+    printf("Sorted array: \\n");
+    printArray(arr, n);
+    return 0;
+}`}
                       language="c"
                     >
                       {({ tokens, getLineProps, getTokenProps }) => (
@@ -499,6 +695,17 @@ void heapSort(int arr[], int n) {
           </motion.div>
         </AnimatePresence>
       </div>
+      <AIChatBox 
+        contextTitle="Algorithm Analysis"
+        contextDescription={`
+Current topic focuses on:
+- Time complexity analysis
+- Space complexity analysis
+- Big O notation
+- Common algorithms and their complexities
+Please provide examples and explanations in the context of Algorithm Analysis.
+        `}
+      />
     </div>
   );
 }

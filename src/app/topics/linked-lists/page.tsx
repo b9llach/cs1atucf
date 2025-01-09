@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Link as LinkIcon, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { Highlight, themes } from "prism-react-renderer";
+import { AIChatBox } from "@/components/ai-chat";
 
 // Define node type
 type Node = {
@@ -830,6 +831,21 @@ struct Node* reverse(struct Node* head) {
           </motion.div>
         </AnimatePresence>
       </div>
+      <AIChatBox 
+        contextTitle="Linked Lists"
+        contextDescription={`
+Current topic focuses on:
+- Linked list operations (traversal, search, delete, reverse)
+- Common operations and algorithms
+- Properties and characteristics
+- Code examples
+- Singly linked lists
+- Circular linked lists
+- Doubly linked lists
+- Circular linked lists
+Please provide examples and explanations in the context of Linked Lists.
+        `}
+      />
     </div>
   );
 }
