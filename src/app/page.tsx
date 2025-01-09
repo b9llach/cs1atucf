@@ -82,16 +82,9 @@ export default function Home() {
     <div className="min-h-screen p-8 bg-black">
       <main className="container mx-auto">
         <div className="flex justify-between items-center mb-12">
-          <Link 
-            href="/"
-            className="rounded-md px-4 py-2 bg-black text-white hover:bg-black/80 transition-all"
-          >
-            ← Back
-          </Link>
           <div className="text-center flex-1">
             <h1 className="text-4xl font-bold mb-4 text-white">cs1 cs1 woo hoo!</h1>
           </div>
-          <ModeToggle />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
