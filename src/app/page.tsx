@@ -40,12 +40,6 @@ const topics = [
     subtopics: ["Balance Factor", "Rotations", "Insertion", "Deletion"]
   },
   {
-    title: "Mathematical Concepts",
-    description: "Mathematical foundations",
-    href: "/topics/math-concepts",
-    subtopics: ["Summations", "Recurrence Relations", "Mathematical Proofs"]
-  },
-  {
     title: "Binary & Bits",
     description: "Binary operations and conversions",
     href: "/topics/binary",
@@ -95,7 +89,8 @@ export default function Home() {
       <main className="container mx-auto">
         <div className="flex justify-between items-center mb-12">
           <div className="text-center flex-1">
-            <h1 className="text-4xl font-bold mb-4 text-white">cs1 cs1 woo hoo!</h1>
+            <h2 className="text-zinc-400">this doesnt work on im mobile sorry.</h2>
+            <h2 className="text-zinc-400">no it doesnt have accesss to your class or class notes.</h2>
           </div>
         </div>
         

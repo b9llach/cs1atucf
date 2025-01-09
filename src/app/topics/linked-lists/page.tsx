@@ -831,21 +831,6 @@ struct Node* reverse(struct Node* head) {
           </motion.div>
         </AnimatePresence>
       </div>
-      <AIChatBox 
-        contextTitle="Linked Lists"
-        contextDescription={`
-Current topic focuses on:
-- Linked list operations (traversal, search, delete, reverse)
-- Common operations and algorithms
-- Properties and characteristics
-- Code examples
-- Singly linked lists
-- Circular linked lists
-- Doubly linked lists
-- Circular linked lists
-Please provide examples and explanations in the context of Linked Lists.
-        `}
-      />
     </div>
   );
 }

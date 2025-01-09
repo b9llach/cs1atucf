@@ -573,17 +573,6 @@ int dequeue(struct Queue* queue) {
           </motion.div>
         </AnimatePresence>
       </div>
-      <AIChatBox 
-        contextTitle="Stacks and Queues"
-        contextDescription={`
-Current topic focuses on:
-- Stack operations (push, pop)
-- Queue operations (enqueue, dequeue)
-- LIFO vs FIFO principles
-- Implementation approaches
-Please provide examples and explanations in the context of Stacks and Queues.
-        `}
-      />
     </div>
   );
 }

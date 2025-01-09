@@ -1283,17 +1283,6 @@ struct Node* search(struct Node* root, int data) {
           </motion.div>
         </AnimatePresence>
       </div>
-      <AIChatBox 
-        contextTitle="Binary Trees"
-        contextDescription={`
-Current topic focuses on:
-- Tree structure and terminology
-- Tree traversal (inorder, preorder, postorder)
-- Binary Search Tree (BST) operations
-- Tree balancing and properties
-Please provide examples and explanations in the context of Binary Trees.
-        `}
-      />
     </div>
   );
 }

@@ -525,17 +525,6 @@ int main() {
           </motion.div>
         </AnimatePresence>
       </div>
-      <AIChatBox 
-        contextTitle="AVL Trees"
-        contextDescription={`
-Current topic focuses on:
-- Balance Factor calculation
-- Tree rotations (Left, Right)
-- Insertion with auto-balancing
-- AVL tree properties and applications
-Please provide examples and explanations in the context of AVL Trees.
-        `}
-      />
     </div>
   );
 }

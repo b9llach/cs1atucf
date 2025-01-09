@@ -756,17 +756,6 @@ int main() {
           </motion.div>
         </AnimatePresence>
       </div>
-      <AIChatBox 
-        contextTitle="Algorithm Analysis"
-        contextDescription={`
-Current topic focuses on:
-- Time complexity analysis
-- Space complexity analysis
-- Big O notation
-- Common algorithms and their complexities
-Please provide examples and explanations in the context of Algorithm Analysis.
-        `}
-      />
     </div>
   );
 }

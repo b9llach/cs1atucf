@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Maximize2, Minimize2, Bot, Loader2 } from "lucide-react";
+import { Send, Maximize2, Minimize2, Bot, Loader2, Trash2 } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -21,11 +21,65 @@ type AIChatBoxProps = {
 };
 
 export function AIChatBox({ contextTitle = "cs1", contextDescription = "" }: AIChatBoxProps) {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const storageKey = `chat-history-${contextTitle.toLowerCase()}`;
+  const [isExpanded, setIsExpanded] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // Initialize messages state
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (typeof window === 'undefined') return [];
+    
+    try {
+      const stored = localStorage.getItem(storageKey);
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error('Error loading messages from localStorage:', error);
+      return [];
+    }
+  });
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    try {
+      if (messages.length > 0) {
+        localStorage.setItem(storageKey, JSON.stringify(messages));
+        console.log('Saved messages to localStorage:', messages); // Debug log
+      } else {
+        localStorage.removeItem(storageKey);
+      }
+    } catch (error) {
+      console.error('Error saving messages to localStorage:', error);
+    }
+  }, [messages, storageKey]);
+
+  // Load messages when context changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    try {
+      const stored = localStorage.getItem(storageKey);
+      console.log('Loading messages for context:', contextTitle); // Debug log
+      console.log('Stored messages:', stored); // Debug log
+      if (stored) {
+        setMessages(JSON.parse(stored));
+      } else {
+        setMessages([]);
+      }
+    } catch (error) {
+      console.error('Error loading messages for new context:', error);
+      setMessages([]);
+    }
+  }, [contextTitle, storageKey]);
+
+  const clearHistory = () => {
+    setMessages([]);
+    localStorage.removeItem(storageKey);
+    console.log('Cleared history for:', storageKey); // Debug log
+  };
 
   const CONTEXT = `
 You are a helpful AI assistant specifically knowledgeable about Computer Science, currently helping with: ${contextTitle}.
@@ -98,14 +152,24 @@ Please provide short, concise, accurate answers focused on the current topic. If
               <Bot className="w-4 h-4 text-white" />
               <h3 className="text-sm font-semibold text-white">ucf cs1 bot</h3>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsExpanded(false)}
-              className="h-auto p-1 hover:bg-zinc-700/50"
-            >
-              <Minimize2 className="w-4 h-4 text-zinc-400" />
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearHistory}
+                className="h-auto p-1 hover:bg-zinc-700/50"
+              >
+                <Trash2 className="w-4 h-4 text-zinc-400" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsExpanded(false)}
+                className="h-auto p-1 hover:bg-zinc-700/50"
+              >
+                <Minimize2 className="w-4 h-4 text-zinc-400" />
+              </Button>
+            </div>
           </div>
           
           <div className="h-[600px] overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-800/50 hover:scrollbar-thumb-zinc-600">
