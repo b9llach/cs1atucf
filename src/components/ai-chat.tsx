@@ -8,6 +8,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import type { Components } from 'react-markdown';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -119,30 +120,30 @@ Please provide concise, accurate answers focused on the current topic.
               >
                 {message.role === 'assistant' ? (
                   <ReactMarkdown
-                    className="prose prose-invert prose-sm max-w-none"
-                    components={{
-                      code({node, inline, className, children, ...props}) {
-                        const match = /language-(\w+)/.exec(className || '');
-                        return !inline && match ? (
-                          <SyntaxHighlighter
-                            // @ts-ignore
-                            style={vscDarkPlus}
-                            language={match[1]}
-                            PreTag="div"
-                            {...props}
-                          >
-                            {String(children).replace(/\n$/, '')}
-                          </SyntaxHighlighter>
-                        ) : (
-                          <code className={className} {...props}>
-                            {children}
-                          </code>
-                        );
-                      }
-                    }}
-                  >
-                    {message.content}
-                  </ReactMarkdown>
+                  className="prose prose-invert prose-sm max-w-none"
+                  components={{
+                    code({node, inline, className, children, ...props}: any) {
+                      const match = /language-(\w+)/.exec(className || '');
+                      return !inline && match ? (
+                        <SyntaxHighlighter
+                          // @ts-ignore
+                          style={vscDarkPlus}
+                          language={match[1]}
+                          PreTag="div"
+                          {...props}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <code className={className} {...props}>
+                          {children}
+                        </code>
+                      );
+                    }
+                  }}
+                >
+                  {message.content}
+                </ReactMarkdown>
                 ) : (
                   message.content
                 )}
