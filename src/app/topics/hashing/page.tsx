@@ -22,6 +22,7 @@ type HashItem = {
   index: number;
   collisions: number;
   chain?: ChainedItem | null;
+  probingSequence?: number[];
 };
 
 export default function HashingPage() {
@@ -57,7 +58,9 @@ export default function HashingPage() {
   };
 
   const quadraticProbe = (initialHash: number, attempt: number): number => {
-    return (initialHash + attempt * attempt) % tableSize;
+    // P(x) = (x² + x)/2
+    const offset = (attempt * attempt + attempt) / 2;
+    return (initialHash + offset) % tableSize;
   };
 
   const secondaryHash = (key: string): number => {
@@ -114,65 +117,76 @@ export default function HashingPage() {
     setHighlightedIndex(null);
   };
 
-  // Modify insertItem to include chaining
+  // Modify insertItem to match the JavaScript implementation
   const insertItem = async (key: string, value: string) => {
     setIsSimulating(true);
     
     if (probingMethod === 'chaining') {
       await chainInsert(key, value);
-    } else {
-      let initialIndex = hashFunction(key);
-      let index = initialIndex;
-      let collisions = 0;
-      let step = probingMethod === 'double' ? secondaryHash(key) : 1;
+      setIsSimulating(false);
+      return;
+    }
+
+    // Computing the initial hash value
+    let hv = hashFunction(key);
+    
+    // Insert in the table if there is no collision
+    if (hashTable[hv] === null) {
+      const newTable = [...hashTable];
+      newTable[hv] = { key, value, index: hv, collisions: 0, probingSequence: [hv] };
+      setHashTable(newTable);
+      setOperations(prev => [...prev, `Inserted "${key}" at index ${hv} with no collisions`]);
+      setIsSimulating(false);
+      return;
+    }
+
+    // Calculate load factor threshold - increased to allow more insertions
+    const loadFactorThreshold = 1;  // Changed from 0.4 to 0.75
+    const currentLoad = hashTable.filter(x => x !== null).length / tableSize;
+    
+    if (currentLoad >= loadFactorThreshold) {
+      setOperations(prev => [...prev, `Load factor threshold (${loadFactorThreshold}) exceeded - consider resizing table`]);
+      setIsSimulating(false);
+      return;
+    }
+
+    // If there is a collision, iterate through all possible quadratic values
+    let probingSequence = [hv];
+    for (let j = 1; j < tableSize; j++) {
+      let t = probingMethod === 'quadratic' 
+        ? quadraticProbe(hv, j)
+        : probingMethod === 'linear'
+          ? linearProbe(hv, j)
+          : doubleHash(hv, j, secondaryHash(key));
       
-      // Show initial hash calculation
-      setHighlightedIndex(initialIndex);
-      setOperations(prev => [...prev, `Initial hash index for "${key}": ${initialIndex}`]);
+      probingSequence.push(t);
+      setHighlightedIndex(t);
+      setOperations(prev => [...prev, 
+        `Collision occurred (${probingMethod} probing), trying index: ${t}`
+      ]);
       await new Promise(resolve => setTimeout(resolve, 1000 / simulationSpeed));
 
-      // Probe if needed
-      let attempt = 0;
-      while (hashTable[index] !== null) {
-        if (hashTable[index]?.key === key) {
-          setOperations(prev => [...prev, `Key "${key}" already exists at index ${index}`]);
-          setIsSimulating(false);
-          return;
-        }
-        
-        collisions++;
-        attempt++;
-        
-        // Calculate next index based on probing method
-        switch (probingMethod) {
-          case 'linear':
-            index = linearProbe(initialIndex, attempt);
-            break;
-          case 'quadratic':
-            index = quadraticProbe(initialIndex, attempt);
-            break;
-          case 'double':
-            index = doubleHash(initialIndex, attempt, step);
-            break;
-        }
-        
-        setHighlightedIndex(index);
+      if (hashTable[t] === null) {
+        const newTable = [...hashTable];
+        newTable[t] = { 
+          key, 
+          value, 
+          index: t, 
+          collisions: j,
+          probingSequence
+        };
+        setHashTable(newTable);
         setOperations(prev => [...prev, 
-          `Collision occurred (${probingMethod} probing), trying index: ${index}` +
-          (probingMethod === 'double' ? ` (step: ${step})` : '')
+          `Inserted "${key}" at index ${t} after ${j} collision(s)`
         ]);
-        await new Promise(resolve => setTimeout(resolve, 1000 / simulationSpeed));
+        setHighlightedIndex(null);
+        setIsSimulating(false);
+        return;
       }
-
-      // Insert the item
-      const newTable = [...hashTable];
-      newTable[index] = { key, value, index, collisions };
-      setHashTable(newTable);
-      setOperations(prev => [...prev, `Inserted "${key}" at index ${index} after ${collisions} collision(s)`]);
-      
-      setHighlightedIndex(null);
     }
-    
+
+    setOperations(prev => [...prev, `Table is full - no slots available`]);
+    setHighlightedIndex(null);
     setIsSimulating(false);
   };
 
@@ -326,8 +340,12 @@ export default function HashingPage() {
                       <motion.div
                         key={index}
                         className={`p-4 rounded flex items-center justify-between
-                          ${highlightedIndex === index ? 'bg-green-500/10 border-2 border-green-500' : 'bg-black/30 border border-zinc-700'}
-                        `}
+                          ${highlightedIndex === index 
+                            ? 'bg-green-500/10 border-2 border-green-500' 
+                            : item?.probingSequence?.includes(index)
+                              ? 'bg-yellow-500/10 border border-yellow-500'
+                              : 'bg-black/30 border border-zinc-700'
+                          }`}
                       >
                         <div className="text-zinc-400 font-mono">Index {index}</div>
                         {item ? (
@@ -339,9 +357,9 @@ export default function HashingPage() {
                                 {item.chain.next && " → ..."}
                               </span>
                             )}
-                            {item.collisions > 0 && (
+                            {!item.chain && item.collisions > 0 && (
                               <span className="text-xs text-zinc-500">
-                                ({item.collisions} item{item.collisions > 1 ? 's' : ''} in chain)
+                                (after {item.collisions} probe{item.collisions > 1 ? 's' : ''})
                               </span>
                             )}
                           </div>
@@ -365,8 +383,9 @@ index = (initialHash + attempt) % tableSize
                       {probingMethod === 'quadratic' && (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded">
                           {`// Quadratic Probing
-index = (initialHash + attempt² ) % tableSize
-// Each attempt moves by increasing square distances`}
+P(x) = (x² + x)/2
+index = (initialHash + P(attempt)) % tableSize
+// Using power-of-two table size for complete coverage`}
                         </pre>
                       )}
                       {probingMethod === 'double' && (
