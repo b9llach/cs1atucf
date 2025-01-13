@@ -83,8 +83,8 @@ export default function Home() {
       <main className="container mx-auto">
         <div className="flex justify-between items-center mb-12">
           <div className="text-center flex-1">
-            <h2 className="text-zinc-400">this doesnt work on im mobile sorry.</h2>
-            <h2 className="text-zinc-400">no it doesnt have access to your class or class notes.</h2>
+            <h2 className="text-zinc-400">formatting is bad on mobile sorry.</h2>
+            <h2 className="text-zinc-400">everything up until the hashing section is done</h2>
           </div>
         </div>
         
