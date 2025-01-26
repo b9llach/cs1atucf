@@ -376,38 +376,48 @@ export default function HashingPage() {
                       {probingMethod === 'linear' && (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded">
                           {`// Linear Probing
-index = (initialHash + attempt) % tableSize
-// Each attempt moves to the next slot`}
+int index = hash(key);
+while (table[index].occupied) {
+    index = (index + 1) % size;
+}`}
                         </pre>
                       )}
                       {probingMethod === 'quadratic' && (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded">
                           {`// Quadratic Probing
-P(x) = (x² + x)/2
-index = (initialHash + P(attempt)) % tableSize
-// Using power-of-two table size for complete coverage`}
+int index = hash(key);
+int i = 0;
+while (table[index].occupied) {
+    i++;
+    int offset = (i * i + i) / 2;
+    index = (hash(key) + offset) % size;
+}`}
                         </pre>
                       )}
                       {probingMethod === 'double' && (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded">
                           {`// Double Hashing
-step = hash2(key)  // Second hash function
-index = (initialHash + attempt * step) % tableSize
-// Each attempt moves by the second hash value`}
+int index = hash1(key);
+int step = hash2(key);
+while (table[index].occupied) {
+    index = (index + step) % size;
+}`}
                         </pre>
                       )}
                       {probingMethod === 'chaining' && (
                         <pre className="text-sm font-mono bg-black/30 p-4 rounded">
                           {`// Chaining
-index = hash(key)
-if (table[index] is empty):
-    table[index] = new Node(key, value)
-else:
+int index = hash(key);
+if (table[index] == NULL) {
+    table[index] = createNode(key, value);
+} else {
     // Add to end of chain
-    current = table[index]
-    while (current.next):
-        current = current.next
-    current.next = new Node(key, value)`}
+    struct Node* current = table[index];
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = createNode(key, value);
+}`}
                         </pre>
                       )}
                     </div>
@@ -445,9 +455,17 @@ else:
                         Search for the next empty slot sequentially until one is found.
                       </p>
                       <pre className="text-sm font-mono bg-black/30 p-4 rounded">
-                        {`index = hash(key)
-while (table[index] is occupied):
-    index = (index + 1) % size`}
+                        {`// Linear Probing
+int insert(HashTable* table, int key, int value) {
+    int index = hash(key);
+    while (table[index].occupied) {
+        index = (index + 1) % table->size;
+    }
+    table[index].key = key;
+    table[index].value = value;
+    table[index].occupied = true;
+    return index;
+}`}
                       </pre>
                       <div className="mt-3 text-zinc-500 text-sm">
                         Pros: Simple, good cache performance<br/>
@@ -458,18 +476,27 @@ while (table[index] is occupied):
                     <div className="p-4 bg-black/30 rounded-lg">
                       <h3 className="text-lg font-semibold text-white mb-3">Quadratic Probing</h3>
                       <p className="text-zinc-400 mb-3">
-                        Try slots at quadratic intervals from the original hash.
+                        Try slots at quadratic intervals using P(x) = (x² + x)/2 with a power-of-two table size.
                       </p>
                       <pre className="text-sm font-mono bg-black/30 p-4 rounded">
-                        {`index = hash(key)
-i = 0
-while (table[index] is occupied):
-    i++
-    index = (hash(key) + i*i) % size`}
+                        {`// Quadratic Probing
+int insert(HashTable* table, int key, int value) {
+    int index = hash(key);
+    int i = 0;
+    while (table[index].occupied) {
+        i++;
+        int offset = (i * i + i) / 2;
+        index = (hash(key) + offset) % table->size;
+    }
+    table[index].key = key;
+    table[index].value = value;
+    table[index].occupied = true;
+    return index;
+}`}
                       </pre>
                       <div className="mt-3 text-zinc-500 text-sm">
-                        Pros: Reduces clustering<br/>
-                        Cons: May not probe all slots
+                        Pros: Complete coverage with power-of-two table size<br/>
+                        Cons: Table size must be power of two
                       </div>
                     </div>
 
@@ -479,10 +506,18 @@ while (table[index] is occupied):
                         Use a second hash function to determine the probe interval.
                       </p>
                       <pre className="text-sm font-mono bg-black/30 p-4 rounded">
-                        {`index = hash1(key)
-step = hash2(key)
-while (table[index] is occupied):
-    index = (index + step) % size`}
+                        {`// Double Hashing
+int insert(HashTable* table, int key, int value) {
+    int index = hash1(key);
+    int step = hash2(key);
+    while (table[index].occupied) {
+        index = (index + step) % table->size;
+    }
+    table[index].key = key;
+    table[index].value = value;
+    table[index].occupied = true;
+    return index;
+}`}
                       </pre>
                       <div className="mt-3 text-zinc-500 text-sm">
                         Pros: Better distribution<br/>
@@ -496,10 +531,30 @@ while (table[index] is occupied):
                         Each slot contains a linked list of elements.
                       </p>
                       <pre className="text-sm font-mono bg-black/30 p-4 rounded">
-                        {`index = hash(key)
-if (table[index] is empty):
-    table[index] = new List()
-table[index].append(key, value)`}
+                        {`// Chaining
+struct Node {
+    int key;
+    int value;
+    struct Node* next;
+};
+
+void insert(HashTable* table, int key, int value) {
+    int index = hash(key);
+    struct Node* newNode = malloc(sizeof(struct Node));
+    newNode->key = key;
+    newNode->value = value;
+    newNode->next = NULL;
+    
+    if (table[index] == NULL) {
+        table[index] = newNode;
+    } else {
+        struct Node* current = table[index];
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+}`}
                       </pre>
                       <div className="mt-3 text-zinc-500 text-sm">
                         Pros: Simple, works well with high load<br/>
@@ -588,6 +643,16 @@ Typical resize threshold: α > 0.7`}
                         <li>Resizing strategy</li>
                       </ul>
                     </div>
+                  </div>
+
+                  <div className="p-4 bg-zinc-900/50 rounded-lg">
+                    <h3 className="text-lg font-semibold text-white mb-3">Quadratic Probing Performance</h3>
+                    <ul className="list-disc list-inside text-zinc-400 space-y-1">
+                      <li>Guaranteed to find empty slot if table size is power of two</li>
+                      <li>Using P(x) = (x² + x)/2 ensures complete coverage</li>
+                      <li>Can achieve 100% load factor before resizing</li>
+                      <li>Better clustering properties than linear probing</li>
+                    </ul>
                   </div>
                 </div>
               </Card>
